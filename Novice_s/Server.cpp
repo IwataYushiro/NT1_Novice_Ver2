@@ -102,7 +102,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	winR = TextureManager::Load("redwin.png");
 	uint32_t winB = 3;
 	winB = TextureManager::Load("bluewin.png");
-	
+	uint32_t htp = 4;
+	htp = TextureManager::Load("htp.png");
+
 	Sprite* sTitle = nullptr;
 	sTitle = Sprite::Create(title, {100.0f, 100.0f});
 
@@ -111,6 +113,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Sprite* sBlueWin = nullptr;
 	sBlueWin = Sprite::Create(winB, {100.0f, 100.0f});
+
+	Sprite* sHTP = nullptr;
+	sHTP = Sprite::Create(htp, {150.0f, 650.0f});
 	// winsock初期化
 	WSAStartup(MAKEWORD(2, 0), &wdData);
 
@@ -224,14 +229,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			/// ここに前景スプライトの描画処理を追加できる
 			/// </summary>
 			sTitle->Draw();
-			//
+			sHTP->Draw();
 			// スプライト描画後処理
 			Sprite::PostDraw();
-
 			break;
 
 		case Scene::S_Game:
+			// 前景スプライト描画前処理
+			Sprite::PreDraw(commandList);
+
+			/// <summary>
+			/// ここに前景スプライトの描画処理を追加できる
+			/// </summary>
+			sHTP->Draw();
+			//
+			// スプライト描画後処理
+			Sprite::PostDraw();
 			break;
+
 		case Scene::S_Result:
 			// 前景スプライト描画前処理
 			Sprite::PreDraw(commandList);
@@ -284,6 +299,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete sTitle;
 	delete sRedWin;
 	delete sBlueWin;
+	delete sHTP;
 
 	// winsock終了
 	WSACleanup();
