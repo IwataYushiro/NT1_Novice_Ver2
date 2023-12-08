@@ -60,6 +60,20 @@ void Reset() {
 	lifeB = 3;
 
 	isShotA = false;
+
+	b.center.x = 800.0f;
+	b.center.y = 400.0f;
+	b.radius = 50.0f;
+
+	bulletB.center.x = b.center.x - 100.0f;
+	bulletB.center.y = b.center.y;
+	bulletB.radius = 20.0f;
+
+	colorA = RED;
+
+	lifeA = 3;
+
+	isShotB = false;
 }
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -133,13 +147,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				a.center.x -= 5.0f;
 			}
 
-			if (keys[DIK_SPACE] != 0 && preKeys[DIK_SPACE] == 0) {
-				isShotA = true;
-			}
-
 			if (isShotA) {
 				if (bulletA.center.x >= 1000.0f) {
 					isShotA = false;
+				}
+			} else {
+
+				if (keys[DIK_SPACE] != 0 && preKeys[DIK_SPACE] == 0) {
+					isShotA = true;
 				}
 			}
 
@@ -149,12 +164,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		case Scene::S_Result:
-			if (keys[DIK_SPACE] != 0) {
+			if (keys[DIK_SPACE] != 0 && preKeys[DIK_SPACE] == 0) {
 
 				Reset();
 				scene = Scene::S_Title;
 				break;
 			}
+			break;
+		default:
 			break;
 		}
 
@@ -182,15 +199,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		if (distanceB <= b.radius + bulletA.radius) {
 			colorB = RED;
-			if (lifeB > 0) {
-
-				isShotA = false;
-				lifeB--;
-			}
+			lifeB--;
+			isShotA = false;
 		} else {
 
-			if(scene!=Scene::S_Result)colorB = BLUE;
-			
+			if (scene != Scene::S_Result)
+				colorB = BLUE;
 		}
 
 		///
@@ -234,6 +248,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//
 			// スプライト描画後処理
 			Sprite::PostDraw();
+			break;
+		default:
 			break;
 		}
 		Novice::DrawEllipse(

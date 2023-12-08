@@ -46,6 +46,21 @@ enum class Scene {
 Scene scene = Scene::S_Title;
 
 void Reset() {
+
+	a.center.x = 200.0f;
+	a.center.y = 400.0f;
+	a.radius = 50.0f;
+
+	bulletA.center.x = a.center.x + 100.0f;
+	bulletA.center.y = a.center.y;
+	bulletA.radius = 20.0f;
+
+	colorB = BLUE;
+
+	lifeB = 3;
+
+	isShotA = false;
+
 	b.center.x = 800.0f;
 	b.center.y = 400.0f;
 	b.radius = 50.0f;
@@ -60,6 +75,7 @@ void Reset() {
 
 	isShotB = false;
 }
+
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -116,6 +132,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			
 			if (keys[DIK_SPACE] != 0 && preKeys[DIK_SPACE] == 0) {
 				scene = Scene::S_Game;
+				break;
 			}
 
 			break;
@@ -130,15 +147,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				b.center.x -= 5.0f;
 			}
 
-			if (keys[DIK_SPACE] != 0 && preKeys[DIK_SPACE] == 0) {
-				isShotB = true;
-			}
-
 			if (isShotB) {
 				if (bulletB.center.x <= 0) {
 					isShotB = false;
 				}
+			} 
+			else {
+			if (keys[DIK_SPACE] != 0 && preKeys[DIK_SPACE] == 0) isShotB = true;
 			}
+
 			if (lifeA <= 0) {
 				scene = Scene::S_Result;
 				break;
@@ -146,12 +163,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case Scene::S_Result:
 			
-			if (keys[DIK_SPACE] != 0) {
+			if (keys[DIK_SPACE] != 0 && preKeys[DIK_SPACE] == 0) {
 
 				Reset();
 				scene = Scene::S_Title;
 				break;
 			}
+			break;
+		default:
 			break;
 		}
 
@@ -178,11 +197,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		if (distanceA <= a.radius + bulletB.radius) {
 			colorA = BLUE;
-			if (lifeA > 0) {
 
-				isShotB = false;
 				lifeA--;
-			}
+				isShotB = false;
 		} 
 		else {
 
@@ -230,6 +247,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//
 			// スプライト描画後処理
 			Sprite::PostDraw();
+			break;
+		default:
 			break;
 		}
 
