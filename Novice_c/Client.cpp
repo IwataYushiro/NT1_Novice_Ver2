@@ -151,6 +151,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case Scene::S_Result:
 			if (keys[DIK_SPACE] != 0) {
 
+				Reset();
 				scene = Scene::S_Title;
 				break;
 			}
