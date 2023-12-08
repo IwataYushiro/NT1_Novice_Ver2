@@ -11,7 +11,7 @@
 
 DWORD WINAPI Threadfunc(void*);
 HWND hwMain;
-const char kWindowTitle[] = "KAMATA ENGINEサーバ";
+const char kWindowTitle[] = "RedVSBlue_サーバ_青";
 
 typedef struct {
 	float x;
